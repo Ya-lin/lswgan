@@ -4,9 +4,10 @@ import time
 import utils
 import torch
 import numpy as np
-from box import Box
+# from box import Box
 from tqdm import tqdm
-from pathlib import Path
+from config import Config
+# from pathlib import Path
 import torch.optim as optim
 from models import PointCloudAE
 import matplotlib.pyplot as plt
@@ -15,16 +16,18 @@ from pytorch3d.loss import chamfer_distance
 
 
 # %% load config
-with open("config.yaml", "r") as file:
-    args = yaml.safe_load(file)
-args = Box(args)
+# with open("config.yaml", "r") as file:
+#     args = yaml.safe_load(file)
+# args = Box(args)
+# print(args)
+
+# args.data_dir = Path.home()/args.data_dir
+# args.model_dir = Path.home()/args.model_dir
+
+args = Config()
 print(args)
 
-args.data_dir = Path.home()/args.data_dir
-args.model_dir = Path.home()/args.model_dir
 
-
-# %% load data
 data_file = args.data_dir/args.dataset
 pc_array = np.load(data_file)
 print(f"data shape: {pc_array.shape}.")
