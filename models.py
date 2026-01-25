@@ -3,12 +3,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-'''
-PointNet AutoEncoder
-Learning Representations and Generative Models For 3D Point Clouds
-https://arxiv.org/abs/1707.02392
-'''
 
+# AE
 class PointCloudAE(nn.Module):
     def __init__(self, point_size, latent_size):
         super(PointCloudAE, self).__init__()
@@ -47,11 +43,7 @@ class PointCloudAE(nn.Module):
         return x
 
 
-'''
-GAN structure in DeepCAD except changing latent from 256 t0 128 and hidden_dim from 512 to 256
-https://openaccess.thecvf.com/content/ICCV2021/papers/Wu_DeepCAD_A_Deep_Generative_Network_for_Computer-Aided_Design_Models_ICCV_2021_paper.pdf
-'''  
-
+# GAN: generator and discriminator
 class Generator(nn.Module):
     def __init__(self, latent_dim=128, hidden_dim=256):
         super().__init__()
