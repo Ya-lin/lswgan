@@ -1,14 +1,6 @@
-
-import os
-import shutil
+#
 import matplotlib.pyplot as plt
-
-        
-def clear_folder(path):
-    if os.path.exists(path): # if path exists, completely delete the folder
-        shutil.rmtree(path)
-    os.mkdir(path)           # otherwise, create the folder via the path
-
+ 
 
 def plotPCbatch(pcArray1, pcArray2, show = True, save = False, name=None, fig_count=9 , sizex = 12, sizey=3):
     
@@ -35,7 +27,6 @@ def plotPCbatch(pcArray1, pcArray2, show = True, save = False, name=None, fig_co
     plt.subplots_adjust(wspace=0, hspace=0)
         
     if(save):
-        # fig.savefig(name /'.png')
         fig.savefig(name)
         plt.close(fig)
     
