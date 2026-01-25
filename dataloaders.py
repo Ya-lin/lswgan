@@ -16,7 +16,9 @@ class ReadDataset(Dataset):
 
 
 def RandomSplit(datasets, train_set_percentage):
-    lengths = [int(len(datasets)*train_set_percentage), len(datasets)-int(len(datasets)*train_set_percentage)]
+    train_len = int(len(datasets)*train_set_percentage)
+    test_len = len(datasets)-train_len
+    lengths = [train_len, test_len]
     return random_split(datasets, lengths)
 
 
