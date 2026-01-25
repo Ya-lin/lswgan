@@ -72,7 +72,7 @@ def test_epoch(): # test with all test set
     return epoch_loss/(i+1)
 
 if args.save_results:
-    utils.clear_folder(args.output_folder)
+    utils.clear_folder(args.ae_output)
 
 
 # %% train ae and save it
@@ -101,12 +101,12 @@ if  __name__ == "__main__":
         if args.save_results: # save all outputs to the save folder
 
             # write the text output to file
-            output_file = args.output_folder / "prints.txt"
+            output_file = args.ae_output / "prints.txt"
             with output_file.open("a") as file:
                 file.write(writeString)
 
             # update the loss graph
-            plt.savefig(args.output_folder/"loss.png")
+            plt.savefig(args.ae_output/"loss.png")
             plt.close()
 
             # save input/output as image file
@@ -114,10 +114,9 @@ if  __name__ == "__main__":
                 test_samples = next(iter(test_loader))
                 loss , test_output = test_batch(test_samples)
                 utils.plotPCbatch(test_samples, test_output, show=False, save=True, 
-                                  name = args.output_folder / f"epoch_{i}.png")
+                                  name = args.ae_output / f"epoch_{i}.png")
 
         else : # display all outputs
-            
             test_samples = next(iter(test_loader))
             loss , test_output = test_batch(test_samples)
             utils.plotPCbatch(test_samples, test_output)

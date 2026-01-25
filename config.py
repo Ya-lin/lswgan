@@ -17,8 +17,10 @@ def Config(load_ae=True, save_results = True):
     cfg.dataset = "chair_set.npy"
     cfg.model_dir = cfg.base_dir / "model"
     cfg.model_dir.mkdir(parents=True, exist_ok=True)
-    cfg.output_folder = Path("output/")
-    cfg.output_folder.mkdir(parents=True, exist_ok=True)
+    cfg.ae_output = Path("output/ae")
+    cfg.ae_output.mkdir(parents=True, exist_ok=True)
+    cfg.wgan_output = Path("output/wgan")
+    cfg.wgan_output.mkdir(parents=True, exist_ok=True)
 
     # hyper-parameters to train AE
     cfg.batch_size = 32
