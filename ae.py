@@ -116,13 +116,14 @@ if  __name__ == "__main__":
             if(i%50==0):
                 test_samples = next(iter(test_loader))
                 loss , test_output = test_batch(test_samples)
-                utils.plotPCbatch(test_samples, test_output, show=False, save=True, name = (args.output_folder  + "epoch_" + str(i)))
+                utils.plotPCbatch(test_samples, test_output, show=False, save=True, 
+                                  name = (args.output_folder / "epoch_" + str(i)))
 
         else : # display all outputs
             
             test_samples = next(iter(test_loader))
             loss , test_output = test_batch(test_samples)
-            utils.plotPCbatch(test_samples,test_output)
+            utils.plotPCbatch(test_samples, test_output)
 
             print(writeString)
 
