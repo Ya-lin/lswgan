@@ -27,6 +27,8 @@ def Config(load_ae=True, save_results = True):
     cfg.save_results = save_results
 
     # hyper-parameters to train WGAN
-    gan_epoch: 100
-    gan_batch: 64
-    lambda_gp: 10
+    cfg.gan_epoch = 100
+    cfg.gan_batch = 64
+    cfg.lambda_gp = 10
+
+    return cfg
