@@ -1,5 +1,5 @@
 # %%
-import yaml
+# import yaml
 import time
 import utils
 import torch
@@ -7,7 +7,6 @@ import numpy as np
 from box import Box
 from tqdm import tqdm
 from config import Config
-# from pathlib import Path
 import torch.optim as optim
 from models import PointCloudAE
 import matplotlib.pyplot as plt
@@ -15,28 +14,7 @@ from dataloaders import GetDataLoaders
 from pytorch3d.loss import chamfer_distance
 
 
-# %% load config and data
-args = Config()
-print(args)
-
-data_file = args.data_dir/args.dataset
-pc_array = np.load(data_file)
-print(f"data shape: {pc_array.shape}.")
-
-# Assuming all models have the same size,
-point_size = pc_array.shape[1]
-print(f"number of points in one 3D cloud: {point_size}.")
-
-# load dataset from numpy array and divide 90%-10% randomly for train and test sets
-train_loader, test_loader = GetDataLoaders(npArray=pc_array, batch_size=args.batch_size)
-
-
-#%% initialize model and set up optimizier
-ae = PointCloudAE(point_size, args.latent_size).to(args.device)
-optimizer = optim.Adam(ae.parameters(), lr=0.0005)
-
-
-# %%
+# 
 def train_epoch():
     epoch_loss = 0
     for i, data in enumerate(train_loader):
@@ -52,7 +30,7 @@ def train_epoch():
         
     return epoch_loss/(i+1)
 
-# %% test process
+# test process
 @torch.no_grad()
 def test_batch(data): # test with a batch of inputs
 
@@ -71,13 +49,34 @@ def test_epoch(): # test with all test set
 
     return epoch_loss/(i+1)
 
-if args.save_results:
-    utils.clear_folder(args.ae_output)
+# if args.save_results:
+#     utils.clear_folder(args.ae_output)
 
 
 # %% train ae and save it
 if  __name__ == "__main__":
 
+    # load config and data
+    args = Config()
+    print(args)
+
+    data_file = args.data_dir/args.dataset
+    pc_array = np.load(data_file)
+    print(f"data shape: {pc_array.shape}.")
+
+    # Assuming all models have the same size,
+    point_size = pc_array.shape[1]
+    print(f"number of points in one 3D cloud: {point_size}.")
+
+    # load dataset from numpy array and divide 90%-10% randomly for train and test sets
+    train_loader, test_loader = GetDataLoaders(npArray=pc_array, batch_size=args.batch_size)
+
+
+    # initialize model and set up optimizier
+    ae = PointCloudAE(point_size, args.latent_size).to(args.device)
+    optimizer = optim.Adam(ae.parameters(), lr=0.0005)
+
+    # train ae model and save it
     history = Box(train=[], test=[])
     for i in tqdm(range(args.ae_epoch)):
 
