@@ -1,7 +1,5 @@
 # %%
-# import yaml
 import time
-import utils
 import torch
 import numpy as np
 from box import Box
@@ -11,6 +9,7 @@ import torch.optim as optim
 from models import PointCloudAE
 import matplotlib.pyplot as plt
 from dataloaders import GetDataLoaders
+from utils import set_seed, plotPCbatch
 from pytorch3d.loss import chamfer_distance
 
 
@@ -49,12 +48,12 @@ def test_epoch(): # test with all test set
 
     return epoch_loss/(i+1)
 
-# if args.save_results:
-#     utils.clear_folder(args.ae_output)
 
-
-# %% train ae and save it
+#%% train ae and save it
 if  __name__ == "__main__":
+
+    # set random seed to make results reproducible 
+    set_seed()
 
     # load config and data
     args = Config()
@@ -112,14 +111,13 @@ if  __name__ == "__main__":
             if(i%50==0):
                 test_samples = next(iter(test_loader))
                 loss , test_output = test_batch(test_samples)
-                utils.plotPCbatch(test_samples, test_output, show=False, save=True, 
-                                  name = args.ae_output / f"epoch_{i}.png")
+                plotPCbatch(test_samples, test_output, show=False, save=True, 
+                            name = args.ae_output / f"epoch_{i}.png")
 
         else : # display all outputs
             test_samples = next(iter(test_loader))
             loss , test_output = test_batch(test_samples)
-            utils.plotPCbatch(test_samples, test_output)
-
+            plotPCbatch(test_samples, test_output)
             print(writeString)
 
             plt.show()
