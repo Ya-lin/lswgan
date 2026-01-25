@@ -10,4 +10,7 @@
 
 **Remark**. To generate a new 3D point cloud, sample a noise vector $\epsilon$ from the standard normal distribution $\mathcal{N}(0, 1)$, then pass it through the generator and decoder to compute $D(G(\epsilon))$. The resulting output is a synthesized 3D point cloud.
 
-
+## Steps to run
+1. python train_ae.py
+2. python train_wgan.py
+3. python test_model.py
