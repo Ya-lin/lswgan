@@ -22,7 +22,8 @@ def RandomSplit(datasets, train_set_percentage):
     return random_split(datasets, lengths)
 
 
-def GetDataLoaders(npArray, batch_size, train_set_percentage = 0.9, shuffle=True, num_workers=4, pin_memory=True):
+def GetDataLoaders(npArray, batch_size, train_set_percentage = 0.9, 
+                   shuffle=True, num_workers=4, pin_memory=True):
     
     pc = ReadDataset(npArray)
 
