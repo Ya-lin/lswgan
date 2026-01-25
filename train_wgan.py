@@ -1,10 +1,11 @@
 #%%
-import yaml
+# import yaml
 import torch
 import numpy as np
 from box import Box
 from torch import optim
-from pathlib import Path
+# from pathlib import Path
+from config import Config
 from utils import plotPCbatch
 from torch.autograd import grad
 from matplotlib import pyplot as plt
@@ -13,42 +14,26 @@ from models import PointCloudAE, Generator, Discriminator
 
 
 #%% load config
-with open("config.yaml", "r") as file:
-    args = yaml.safe_load(file)
-args = Box(args)
-print(args)
+# with open("config.yaml", "r") as file:
+#     args = yaml.safe_load(file)
+# args = Box(args)
+# print(args)
 
-args.data_dir = Path.home()/args.data_dir
-args.model_dir = Path.home()/args.model_dir
-
-
-#%% load data
-data_file = args.data_dir/args.dataset
-pc_array = np.load(data_file)
-print(f"data shape: {pc_array.shape}.")
-
-point_size = pc_array.shape[1]
-print(f"number of points in one 3D cloud: {point_size}.")
-loader, _ = GetDataLoaders(npArray=pc_array, 
-                           batch_size=args.batch_size, 
-                           train_set_percentage=1.0)
+# args.data_dir = Path.home()/args.data_dir
+# args.model_dir = Path.home()/args.model_dir
 
 
-#%% load ae model
-ae = PointCloudAE(point_size, args.latent_size).to(args.device)
-checkpoint = torch.load(args.model_dir/"ae.pt", weights_only=True)
-ae.load_state_dict(checkpoint)
-ae.eval()
-print("Successfully load ae!")
+# # load data
+# data_file = args.data_dir/args.dataset
+# pc_array = np.load(data_file)
+# print(f"data shape: {pc_array.shape}.")
 
+# point_size = pc_array.shape[1]
+# print(f"number of points in one 3D cloud: {point_size}.")
+# loader, _ = GetDataLoaders(npArray=pc_array, 
+#                            batch_size=args.batch_size, 
+#                            train_set_percentage=1.0)
 
-#%% 
-with torch.no_grad():
-    x = next(iter(loader))
-    x = x.to(args.device)
-    x_hat = ae(x.permute(0,2,1))
-print(x_hat.shape)
-plotPCbatch(x.cpu(), x_hat.cpu())
 
 
 #%%
@@ -56,11 +41,13 @@ def generate_embedding(generator, batch_size, device, latent_dim=128):
     noise = torch.randn(batch_size, latent_dim, device=device)
     return generator(noise)
 
+
 @torch.no_grad()
 def generate_sample(generator, ae, batch_size, device, latent_dim=128):
     z_gen = generate_embedding(generator, batch_size, device, latent_dim)
     x = ae.decoder(z_gen).cpu()
     return x
+
 
 
 #%%
@@ -140,6 +127,38 @@ def training_gan(epochs, latent_size, gan_batch, lambda_gp, device):
 
 #%% 
 if __name__ == "__main__":
+
+    # load config and data
+    args = Config()
+    print(args)
+
+    data_file = args.data_dir/args.dataset
+    pc_array = np.load(data_file)
+    print(f"data shape: {pc_array.shape}.")
+
+    # Assuming all models have the same size,
+    point_size = pc_array.shape[1]
+    print(f"number of points in one 3D cloud: {point_size}.")
+
+    # no test dataset as the whole dataset is used to train WGAN
+    loader, _ = GetDataLoaders(npArray=pc_array, 
+                               batch_size=args.batch_size,
+                               train_set_percentage=1.0)
+
+    # load ae model
+    ae = PointCloudAE(point_size, args.latent_size).to(args.device)
+    checkpoint = torch.load(args.model_dir/"ae.pt", weights_only=True)
+    ae.load_state_dict(checkpoint)
+    ae.eval()
+    print("Successfully load ae!")
+
+
+    with torch.no_grad():
+        x = next(iter(loader))
+        x = x.to(args.device)
+        x_hat = ae(x.permute(0,2,1))
+    print(x_hat.shape)
+    plotPCbatch(x.cpu(), x_hat.cpu())
 
 
     loader, _ = GetDataLoaders(npArray=pc_array, 
