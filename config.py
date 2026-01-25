@@ -13,9 +13,9 @@ def Config(load_ae=True, save_results = True):
     cfg.load_ae = load_ae
 
     cfg.base_dir = Path.home()/"onedrive_local/research/3D_Points_Clouds"
-    cfg.data_dir = cfg.data_dir / "data"
+    cfg.data_dir = cfg.base_dir / "data"
     cfg.dataset = "chair_set.npy"
-    cfg.model_dir = cfg.data_dir / "model"
+    cfg.model_dir = cfg.base_dir / "model"
     cfg.model_dir.mkdir(parents=True, exist_ok=True)
     cfg.output_folder = "output/"
     cfg.output_folder.mkdir(parents=True, exist_ok=True)
