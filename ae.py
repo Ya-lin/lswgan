@@ -15,18 +15,9 @@ from dataloaders import GetDataLoaders
 from pytorch3d.loss import chamfer_distance
 
 
-# %% load config
-# with open("config.yaml", "r") as file:
-#     args = yaml.safe_load(file)
-# args = Box(args)
-# print(args)
-
-# args.data_dir = Path.home()/args.data_dir
-# args.model_dir = Path.home()/args.model_dir
-
+# %% load config and data
 args = Config()
 print(args)
-
 
 data_file = args.data_dir/args.dataset
 pc_array = np.load(data_file)
@@ -110,11 +101,15 @@ if  __name__ == "__main__":
         if args.save_results: # save all outputs to the save folder
 
             # write the text output to file
-            with open(args.output_folder + "prints.txt","a") as file: 
+            output_file = args.output_folder / "prints.txt"
+            with output_file.open("a") as file:
                 file.write(writeString)
 
+            # with open(args.output_folder + "prints.txt","a") as file: 
+            #     file.write(writeString)
+
             # update the loss graph
-            plt.savefig(args.output_folder + "loss.png")
+            plt.savefig(args.output_folder/"loss.png")
             plt.close()
 
             # save input/output as image file
