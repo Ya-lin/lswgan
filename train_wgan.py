@@ -135,14 +135,7 @@ if __name__ == "__main__":
     print("Successfully load ae!")
 
 
-    with torch.no_grad():
-        x = next(iter(loader))
-        x = x.to(args.device)
-        x_hat = ae(x.permute(0,2,1))
-    print(x_hat.shape)
-    plotPCbatch(x.cpu(), x_hat.cpu())
-
-
+    # train WGAN
     loader, _ = GetDataLoaders(npArray=pc_array, 
                            batch_size=args.gan_batch, 
                            train_set_percentage=1.0)
@@ -155,10 +148,12 @@ if __name__ == "__main__":
     losses = training_gan(args.gan_epoch, args.latent_size, args.gan_batch, args.lambda_gp, args.device)
 
     # display training loss
+    fig = plt.figure()
     plt.plot(losses.g, label="generator loss")
     plt.plot(losses.d, label="discriminator loss")
     plt.legend()
     plt.show()
+    fig.savefig(args.wgan_output/"loss.png")
     plt.close()
 
     # save model
