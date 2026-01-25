@@ -2,7 +2,7 @@
 import torch
 import numpy as np
 from config import Config
-from wgan_utils import generate_sample
+from train_wgan import generate_sample
 from utils import set_seed, plotPCbatch
 from models import PointCloudAE, Generator
 

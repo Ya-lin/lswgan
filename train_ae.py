@@ -12,8 +12,11 @@ from dataloaders import GetDataLoaders
 from utils import set_seed, plotPCbatch
 from pytorch3d.loss import chamfer_distance
 
+import warnings
+warnings.filterwarnings('ignore')
 
-# 
+
+#%%
 def train_epoch():
     epoch_loss = 0
     for i, data in enumerate(train_loader):

@@ -4,11 +4,14 @@ import numpy as np
 from box import Box
 from torch import optim
 from config import Config
+from utils import set_seed
 from torch.autograd import grad
 from matplotlib import pyplot as plt
 from dataloaders import GetDataLoaders
-from utils import set_seed, plotPCbatch
 from models import PointCloudAE, Generator, Discriminator
+
+import warnings
+warnings.filterwarnings('ignore')
 
 
 #%%
@@ -61,7 +64,7 @@ def compute_gradient_penalty(discriminator, real_samples, fake_samples, device):
 # training loop
 def training_gan(epochs, latent_size, gan_batch, lambda_gp, device):
 
-    print("start to train gan")
+    print("start to train wgan")
     
     losses = Box(g=[],d=[])
     for epoch in range(epochs):
@@ -70,11 +73,8 @@ def training_gan(epochs, latent_size, gan_batch, lambda_gp, device):
         for i, x in enumerate(loader):
             true_embedding = generate_true_embedding(x, ae, device)
             fake_embedding = generate_fake_embedding(gan_g, gan_batch, device, latent_size)
-            # z = torch.randn(gan_batch, latent_size, device=device)
-            # fake_embedding = gan_g(z).detach()
-            # fake_embedding = gan_g(z)
-
-            # train discriminator
+        
+            # update discriminator
             d_real = gan_d(true_embedding)
             d_fake = gan_d(fake_embedding.detach())
             gp = compute_gradient_penalty(gan_d, true_embedding, fake_embedding.detach(), device)
@@ -84,10 +84,8 @@ def training_gan(epochs, latent_size, gan_batch, lambda_gp, device):
             opt_d.step()
             dis_batch_losses.append(loss_d.item())
 
-            # update generator per 5 times to update discriminator
+            # every 5 batches to update the generator
             if i % 5 == 0:
-                # z = torch.randn(gan_batch, latent_size, device=device)
-                # fake_embedding = gan_g(z)
                 loss_g = -torch.mean(gan_d(fake_embedding))
                 opt_g.zero_grad()
                 loss_g.backward()
