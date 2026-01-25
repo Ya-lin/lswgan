@@ -105,9 +105,6 @@ if  __name__ == "__main__":
             with output_file.open("a") as file:
                 file.write(writeString)
 
-            # with open(args.output_folder + "prints.txt","a") as file: 
-            #     file.write(writeString)
-
             # update the loss graph
             plt.savefig(args.output_folder/"loss.png")
             plt.close()
@@ -117,7 +114,7 @@ if  __name__ == "__main__":
                 test_samples = next(iter(test_loader))
                 loss , test_output = test_batch(test_samples)
                 utils.plotPCbatch(test_samples, test_output, show=False, save=True, 
-                                  name = (args.output_folder / f"epoch_{i}"))
+                                  name = args.output_folder / f"epoch_{i}.png")
 
         else : # display all outputs
             
