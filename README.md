@@ -1,7 +1,6 @@
 # Latent Space WGAN to Generate 3D POint Clouds
 
-## Install packages to run the code
-2. [install pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md)
+## [install pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md)
 
 **Remark.** Ensure that the GPU version of pytorch3d is installed.
 
