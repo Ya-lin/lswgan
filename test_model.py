@@ -44,7 +44,8 @@ if __name__ == "__main__":
     #display generated samples by saved models
     sample1 = generate_sample(generator, ae, args.batch_size, args.device, latent_dim=128)
     sample2 = generate_sample(generator, ae, args.batch_size, args.device, latent_dim=128)
-    plotPCbatch(sample1, sample2)
+    plotPCbatch(sample1, sample2, show=False, save=True, 
+                name = args.wgan_output / f"generated_sample.png")
 
 
 #%%
