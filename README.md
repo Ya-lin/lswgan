@@ -8,7 +8,7 @@
 1. Train an Autoencoder (AE), consisting of an encoder $E_n$ and a decoder $D_e$, and save the trained model.
 2. Train a Wasserstein GAN (WGAN), composed of a generator $G$ and a discriminator $D$, to learn the distribution of encoded 3D point clouds $E_n(X)$, where $X$ represents the original 3D point cloud data. The goal is to make the distribution of $G(\epsilon)$ match that of $E_n(X)$, where $\epsilon \sim \mathcal{N}(0, 1)$. Save the trained generator $G$.
 
-**Remark**. To generate a new 3D point cloud, sample a noise vector $\epsilon$ from the standard normal distribution $\mathcal{N}(0, 1)$, then pass it through the generator and decoder to compute $D(G(\epsilon))$. The resulting output is a synthesized 3D point cloud.
+**Remark**. To generate a new 3D point cloud, sample a noise vector $\epsilon$ from the standard normal distribution $\mathcal{N}(0, 1)$, then pass it through the generator and decoder to compute $D_e(G(\epsilon))$. The resulting output is a synthesized 3D point cloud.
 
 ## Steps to run
 1. python train_ae.py
