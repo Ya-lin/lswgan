@@ -1,8 +1,16 @@
 # Latent Space WGAN to Generate 3D POint Clouds
 
-## [install pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md)
+## Requirements
+The following software was installed on Ubuntu 24.04.3 LTS.
+* Python 3.9.23
+* CUDA 13.0
+* numpy 1.26.4
+* matplotlib 3.9.2
+* torch 2.0.1+cu117
+* pytorch-cuda 11.8
+* pytorch3d 0.7.4
 
-**Remark.** Ensure that the GPU version of pytorch3d is installed.
+**Remark.** Ensure that the GPU-enabled version of PyTorch3D is installed. Please refer to the [installation guide](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md) for detailed instructions. 
 
 ## Method
 1. Train an Autoencoder (AE), consisting of an encoder $E_n$ and a decoder $D_e$, and save the trained model.
