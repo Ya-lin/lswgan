@@ -13,7 +13,7 @@ The following software was installed on Ubuntu 24.04.3 LTS.
 **Remark.** Ensure that the GPU-enabled version of PyTorch3D is installed. Please refer to the [installation guide](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md) for detailed instructions. 
 
 ## Method
-1. Train an Autoencoder (AE), consisting of an encoder $E_n$ and a decoder $D_e$, and save the trained model. The reconstruction loss is defined as the Chamfer Distance between the input point set (X) and its reconstruction set $\hat{X}$, i.e., $L_{rec}(X,\hat{X})=\sum_{x\in X}\min_{\hat{x}\in\hat{X}}(x-\hat{x})^2+\sum_{\hat{x}\in\hat{X}}\min_{x\in X}(\hat{x}-x)^2$.
+1. Train an Autoencoder (AE), consisting of an encoder $E_n$ and a decoder $D_e$, and save the trained model. The reconstruction loss is defined as the Chamfer Distance between the input point set X and its reconstruction set $\hat{X}$, i.e., $L_{rec}(X,\hat{X})=\sum_{x\in X}\min_{\hat{x}\in\hat{X}}(x-\hat{x})^2+\sum_{\hat{x}\in\hat{X}}\min_{x\in X}(\hat{x}-x)^2$.
 2. Train a Wasserstein GAN (WGAN), composed of a generator $G$ and a discriminator $D$, to learn the distribution of encoded 3D point clouds $E_n(X)$, where $X$ represents the original 3D point cloud data. The goal is to make the distribution of $G(\epsilon)$ match that of $E_n(X)$, where $\epsilon \sim \mathcal{N}(0, 1)$. Save the trained generator $G$.
 
 **Remark**. To generate a new 3D point cloud, sample a noise vector $\epsilon$ from the standard normal distribution $\mathcal{N}(0, 1)$, then pass it through the generator and decoder to compute $D_e(G(\epsilon))$. The resulting output is a synthesized 3D point cloud.
