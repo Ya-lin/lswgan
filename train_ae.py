@@ -71,7 +71,8 @@ def test_batch(data): # test with a batch of inputs
 
     data = data.to(args.device)
     output = ae(data.permute(0,2,1))
-    loss, _ = chamfer_distance(data, output)
+    # loss, _ = chamfer_distance(data, output)
+    loss = chamfer_distance(data, output)
     
     return loss.item(), output.cpu()
 

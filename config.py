@@ -12,7 +12,8 @@ def Config(load_ae=True, save_results = True):
     cfg.device = "cuda"
     cfg.load_ae = load_ae
 
-    cfg.base_dir = Path.home()/"onedrive_local/research/3D_Points_Clouds"
+    # cfg.base_dir = Path.home()/"onedrive_local/research/3D_Points_Clouds"
+    cfg.base_dir = Path.cwd()
     cfg.data_dir = cfg.base_dir / "data"
     cfg.dataset = "chair_set.npy"
     cfg.model_dir = cfg.base_dir / "model"
